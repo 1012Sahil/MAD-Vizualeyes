@@ -1,23 +1,17 @@
-import { DownloadPicture } from "@/components/BottomSheet";
+import { Linking } from 'react-native';
+import { Pressable } from 'react-native';
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { useState } from "react";
-import {
-  Button,
-  Pressable,
-  Text,
-  View,
-  useColorScheme,
-  StyleSheet,
-  Appearance,
-} from "react-native";
+import { useColorScheme } from "react-native";
 import { Colors } from "@/constants/Colors";
+import { Appearance } from 'react-native';
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { ScrollView } from "react-native-gesture-handler";
 import { ThemedSafeAreaView } from "@/components/ThemedSafeAreaView";
-import { Link, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
 
-export default function account() {
+// Corrected code starts here
+export default function Account() {
   return (
     <ThemedSafeAreaView style={{ flex: 1 }}>
       <ScrollView style={{ flex: 1 }}>
@@ -34,24 +28,21 @@ export default function account() {
 
 function About() {
   const router = useRouter();
+
   return (
-    <ThemedView style={styles.margin}>
-      <ThemedText style={styles.textBig}>About</ThemedText>
+    <ThemedView style={{ padding: 20 }}>
+      <ThemedText style={{ fontSize: 25, fontWeight: '600' }}>About</ThemedText>
       <ThemedView style={{ marginTop: 10 }}>
-        <Pressable>
-          <ThemedText style={{ margin: 10, fontSize: 18 }}>Accont</ThemedText>
+        <Pressable onPress={() => router.push("/account/AccountPage")}>
+          <ThemedText style={{ margin: 10, fontSize: 18 }}>Account</ThemedText>
         </Pressable>
         <Pressable onPress={() => router.push("/account/PrivacyPolicy")}>
-          <ThemedText style={{ margin: 10, fontSize: 18 }}>
-            Privacy Policy
-          </ThemedText>
+          <ThemedText style={{ margin: 10, fontSize: 18 }}>Privacy Policy</ThemedText>
         </Pressable>
         <Pressable onPress={() => router.push("./account/TermsOfService")}>
-          <ThemedText style={{ margin: 10, fontSize: 18 }}>
-            Terms of Service
-          </ThemedText>
+          <ThemedText style={{ margin: 10, fontSize: 18 }}>Terms of Service</ThemedText>
         </Pressable>
-        <Pressable  onPress={() => router.push("./account/Licenses")}>
+        <Pressable onPress={() => router.push("./account/Licenses")}>
           <ThemedText style={{ margin: 10, fontSize: 18 }}>Licenses</ThemedText>
         </Pressable>
       </ThemedView>
@@ -61,8 +52,8 @@ function About() {
 
 function ThemeSelector() {
   return (
-    <ThemedView style={styles.margin}>
-      <ThemedText style={styles.textBig}>Settings</ThemedText>
+    <ThemedView style={{ padding: 20 }}>
+      <ThemedText style={{ fontSize: 25, fontWeight: "600" }}>Settings</ThemedText>
       <ThemedText>Theme</ThemedText>
       <ThemedView
         style={{
@@ -115,7 +106,7 @@ function LoginButtons() {
   return (
     <>
       <AuthButton
-        label={"Sign in"}
+        label={"Sign in with Google"}
         icon={
           <Ionicons
             name={"logo-google"}
@@ -123,9 +114,10 @@ function LoginButtons() {
             color={theme === "light" ? Colors.light.text : Colors.dark.icon}
           />
         }
+        google={true}
       />
       <AuthButton
-        label={"Sign in"}
+        label={"Sign in with Apple"}
         icon={
           <Ionicons
             name={"logo-apple"}
@@ -133,6 +125,7 @@ function LoginButtons() {
             color={theme === "light" ? Colors.light.text : Colors.dark.icon}
           />
         }
+        google={false}
       />
     </>
   );
@@ -140,15 +133,27 @@ function LoginButtons() {
 
 function Header() {
   return (
-    <ThemedView style={styles.topbar}>
-      <ThemedText style={styles.textBig}>Panels</ThemedText>
+    <ThemedView style={{ padding: 20 }}>
+      <ThemedText style={{ fontSize: 25, fontWeight: "600" }}>Panels</ThemedText>
       <ThemedText>Sign in to save your data</ThemedText>
     </ThemedView>
   );
 }
 
-function AuthButton({ label, icon }: { label: string; icon: any }) {
+function AuthButton({ label, icon, google }: { label: string; icon: any; google: boolean }) {
   const theme = useColorScheme() ?? "light";
+
+  const handleGoogleSignIn = () => {
+    alert('Trying to connect to Google...');
+    // Use Linking to open the Gmail or Google login URL
+    Linking.openURL('https://gmail.com');
+  };
+
+  const handleAppleSignIn = () => {
+    alert('Trying to connect to Apple...');
+    // Use Linking to open the Apple support or login page
+    Linking.openURL('https://support.apple.com/en-in/111001');
+  }; 
 
   return (
     <Pressable
@@ -160,9 +165,10 @@ function AuthButton({ label, icon }: { label: string; icon: any }) {
         justifyContent: "center",
         flexDirection: "row",
         borderRadius: 10,
-        borderWidth: 1,
+        borderWidth: 1, 
         borderColor: theme === "light" ? Colors.light.text : Colors.dark.icon,
       }}
+      onPress={google ? handleGoogleSignIn : handleAppleSignIn}
     >
       {icon}
       <ThemedText
@@ -176,20 +182,3 @@ function AuthButton({ label, icon }: { label: string; icon: any }) {
     </Pressable>
   );
 }
-
-const styles = StyleSheet.create({
-  textBig: {
-    fontSize: 25,
-    fontWeight: "600",
-  },
-  topbar: {
-    padding: 20,
-  },
-  themeSelectorContainer: {
-    flex: 1,
-  },
-  themeSelectorChild: {},
-  margin: {
-    padding: 20,
-  },
-});

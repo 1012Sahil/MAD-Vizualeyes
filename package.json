@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "@react-native-google-signin/google-signin": "^13.1.0",
+    "@react-native-community/cli": "latest"
+  },
+
+  "devDependencies": {
+    "@react-native-community/cli": "latest"
+  }
+}

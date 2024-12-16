@@ -50,6 +50,5 @@ const styles = StyleSheet.create({
         padding: 5,
         borderBottomLeftRadius: 20,
         borderBottomRightRadius: 20,
-        
     }
 })

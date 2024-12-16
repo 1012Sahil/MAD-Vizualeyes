@@ -1,0 +1,12 @@
+{
+  "expo": {
+    "extra": {
+      "eas": {
+        "projectId": "96cd6f24-4653-4924-8d70-b88b0667a8e5"
+      }
+    },
+    "android": {
+      "package": "com.sangeetworkspace.madvizualeyes"
+    }
+  }
+}
